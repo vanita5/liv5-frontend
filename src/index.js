@@ -6,6 +6,7 @@ import App from './components/App'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/lib/integration/react'
 import { persistStore } from 'redux-persist'
+import { BrowserRouter as Router } from 'react-router-dom'
 import store from './store'
 import * as serviceWorker from './serviceWorker'
 
@@ -14,7 +15,9 @@ const persistor = persistStore(store)
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate persistor={persistor} loading={<p>Loading...</p>}>
-            <App />
+            <Router>
+                <App />
+            </Router>
         </PersistGate>
     </Provider>
 , document.getElementById('root'));

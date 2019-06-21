@@ -1,3 +1,23 @@
 body {
   background-color: #F3F3F3;
 }
+
+.container5 {
+  height: 100vh;
+  display: flex;
+}
+
+.container5 > div {
+  padding-top: 6em;
+  padding-left: 15px;
+}
+
+.sidebar5 {
+  width: 250px;
+  background-color: white;
+  border-right: rgba(34,36,38,.1) 1px solid;
+}
+
+.content5 {
+  flex-grow: 1;
+}

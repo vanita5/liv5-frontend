@@ -14,7 +14,7 @@ class TopNavigation extends React.Component {
         return (
             <Menu fixed="top">
                 <Container fluid>
-                    <Menu.Item header>
+                    <Menu.Item header style={{ width: 250 }}>
                         <Image size="mini" src="/logo.png" style={{ marginRight: '1.75em' }} />
                         Dashboard
                     </Menu.Item>
