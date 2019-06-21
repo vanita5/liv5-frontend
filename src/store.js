@@ -22,8 +22,6 @@ const reducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, reducer)
 
-console.log('isProd? ' + isProd)
-
 const composeEnhancers = (isProd ? null : window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose
 
 export default createStore(
