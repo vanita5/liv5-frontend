@@ -11,11 +11,7 @@ import Module3 from '../Module3'
 import * as ROUTES from '../../constants/routes'
 
 import {
-    Container,
-    Grid,
-    Sidebar,
     Menu,
-    Segment,
 } from 'semantic-ui-react'
 
 import './style.scss'
@@ -23,6 +19,7 @@ import './style.scss'
 class App extends React.Component {
     render() {
         if (!this.props.auth.authorized) return <LoginPage />
+
         return (
             <div>
                 <TopNavigation />

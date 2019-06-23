@@ -1,32 +1,53 @@
 import React from 'react'
 
 import { connect } from 'react-redux'
-import { getTokenAsync } from '../../action/auth'
+import { getTokenAsync, registerAsync } from '../../action/auth'
 import {
     Button,
     Form,
     Grid,
     Image,
     Segment,
+    Icon,
 } from 'semantic-ui-react'
 
 class LoginPage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            username: '',
+            name: '',
+            email: '',
             password: '',
+            password_confirmation: '',
+            signup: false,
         }
-    }
-
-    validateForm() {
-        return this.state.username.length > 0 && this.state.password.length > 0
     }
 
     handleInputChange(event) {
         this.setState({
             [event.target.name]: event.target.value
         })
+    }
+
+    handleSignUpClick() {
+        if (this.state.signup) {
+            this.props.signup(
+                this.state.name,
+                this.state.email,
+                this.state.password,
+                this.state.password_confirmation
+            )
+        } else {
+            this.setState({ signup: true })
+        }
+    }
+
+    handleLoginClick() {
+        if (!this.state.signup) {
+            this.props.login(this.state.email, this.state.password)
+        } else {
+            this.setState({ signup: false })
+        }
     }
 
     render() {
@@ -40,15 +61,25 @@ class LoginPage extends React.Component {
                             width={150}
                             style={{ margin: '0 auto 25px' }} />
                         <Form size="large">
+                            {this.state.signup &&
+                                <Form.Input
+                                fluid
+                                icon="user outline"
+                                iconPosition="left"
+                                placeholder="Name"
+                                name="name"
+                                type="text"
+                                onChange={event => this.handleInputChange(event)}
+                                value={this.state.name}/>}
                             <Form.Input
                                 fluid
                                 icon="user"
                                 iconPosition="left"
                                 placeholder="Email"
-                                name="username"
+                                name="email"
                                 type="email"
                                 onChange={event => this.handleInputChange(event)}
-                                value={this.state.username} />
+                                value={this.state.email} />
                             <Form.Input
                                 fluid
                                 icon="lock"
@@ -58,16 +89,31 @@ class LoginPage extends React.Component {
                                 type="Password"
                                 onChange={event => this.handleInputChange(event)}
                                 value={this.state.password} />
+                            {this.state.signup &&
+                                <Form.Input
+                                    fluid
+                                    icon="lock"
+                                    iconPosition="left"
+                                    placeholder="Confirm Password"
+                                    name="password_confirmation"
+                                    type="password"
+                                    onChange={event => this.handleInputChange(event)}
+                                    value={this.state.password_confirmation} />}
                             <Button.Group fluid>
                                 <Button
-                                    positive
+                                    positive={!this.state.signup}
                                     loading={this.props.auth.loading}
                                     disabled={false}
-                                    onClick={() => this.props.login(this.state.username, this.state.password)}>
-                                    Login
+                                    onClick={() => this.handleLoginClick()}>
+                                    {this.state.signup && <Icon name="long arrow alternate left" />}
+                                    {this.state.signup ? 'Back' : 'Login'}
                                 </Button>
                                 <Button.Or />
-                                <Button>Sign Up</Button>
+                                <Button
+                                    positive={this.state.signup}
+                                    onClick={() => this.handleSignUpClick()}>
+                                    Sign Up
+                                </Button>
                             </Button.Group>
                         </Form>
                     </Segment>
@@ -82,7 +128,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    login: (username, password) => dispatch(getTokenAsync(username, password)),
+    login: (email, password) => dispatch(getTokenAsync(email, password)),
+    signup: (name, email, password, password_confirmation) => dispatch(registerAsync(name, email, password, password_confirmation))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)
