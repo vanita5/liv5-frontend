@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { getTokenAsync, registerAsync } from '../../action/auth'
 import {
     Button,
+    Message,
     Form,
     Grid,
     Image,
@@ -20,6 +21,7 @@ class LoginPage extends React.Component {
             password: '',
             password_confirmation: '',
             signup: false,
+            error: null,
         }
     }
 
@@ -31,12 +33,14 @@ class LoginPage extends React.Component {
 
     handleSignUpClick() {
         if (this.state.signup) {
-            this.props.signup(
-                this.state.name,
-                this.state.email,
-                this.state.password,
-                this.state.password_confirmation
-            )
+            if (this.validate()) {
+                this.props.signup(
+                    this.state.name,
+                    this.state.email,
+                    this.state.password,
+                    this.state.password_confirmation
+                )
+            }
         } else {
             this.setState({ signup: true })
         }
@@ -44,10 +48,34 @@ class LoginPage extends React.Component {
 
     handleLoginClick() {
         if (!this.state.signup) {
-            this.props.login(this.state.email, this.state.password)
+            if (this.validate()) {
+                this.props.login(this.state.email, this.state.password)
+            }
         } else {
             this.setState({ signup: false })
         }
+    }
+
+    validate() {
+        if (this.state.email.length === 0) {
+            this.setState({ error: 'Email must not be empty!' })
+            return false
+        }
+        if (this.state.password.length < 6) {
+            this.setState({ error: 'Password must contain at least 6 characters!' })
+            return false
+        }
+        if (this.state.signup) {
+            if (this.state.name.length === 0) {
+                this.setState({ error: 'Name must not be empty!' })
+                return false
+            }
+            if (this.state.password_confirmation.length === 0) {
+                this.setState({ error: 'Password Confirmation must not be empty!' })
+                return false
+            }
+        }
+        return true
     }
 
     render() {
@@ -60,6 +88,16 @@ class LoginPage extends React.Component {
                             alt="Logo (liv5)"
                             width={150}
                             style={{ margin: '0 auto 25px' }} />
+                        {this.props.auth.error &&
+                            <Message error>
+                                <Message.Header>Authentication error</Message.Header>
+                                {this.props.auth.error}
+                            </Message>}
+                        {this.state.error &&
+                            <Message error>
+                                <Message.Header>Authentication error</Message.Header>
+                                {this.state.error}
+                            </Message>}
                         <Form size="large">
                             {this.state.signup &&
                                 <Form.Input

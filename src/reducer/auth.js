@@ -31,6 +31,7 @@ const authReducer = (state = initialState, action) => {
                 expires_in: action.payload.expires_in,
             })
 
+        case types.SIGNUP_FAILURE:
         case types.LOGIN_FAILURE:
             return state.set('auth', {
                 authorized: false,

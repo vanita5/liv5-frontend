@@ -37,13 +37,13 @@ export const getTokenAsync = (email, password) => dispatch => {
         })
     })
         .then(res => {
-            if (!res.ok) throw Error(`${res.status} ${res.statusText}`)
             return res.json()
         })
         .then(json => {
-            dispatch(loginSuccess(json))
+            dispatch(json.error ? loginFailure({ error: json.message }) : loginSuccess(json))
         })
         .catch(e => {
+            console.log(e)
             dispatch(loginFailure({ error: e.message }))
         })
 }
@@ -69,8 +69,10 @@ export const registerAsync = (name, email, password, password_confirmation) => d
                 dispatch(getTokenAsync(email, password))
                 return
             }
-            if (!res.ok) throw Error(`${res.status} ${res.statusText}`)
             return res.json()
+        })
+        .then(json => {
+            dispatch(signUpFailure({ error: json.message }))
         })
         .catch(e => {
             dispatch(signUpFailure({ error: e.message }))
