@@ -1,6 +1,7 @@
 import 'isomorphic-fetch'
 
 import { createAction } from 'redux-actions'
+import { beginTask, endTask } from 'redux-nprogress'
 import {API_GET_TOKEN, API_REGISTER} from '../constants/routes'
 import { CLIENT_ID, CLIENT_SECRET } from '../constants/constants'
 import { jsonHeader } from '../utils'
@@ -23,6 +24,7 @@ export const signUpFailure = createAction(types.SIGNUP_FAILURE)
 
 
 export const getTokenAsync = (email, password) => dispatch => {
+    dispatch(beginTask())
     dispatch(loginRequest())
     return fetch(API_GET_TOKEN, {
         headers: jsonHeader,
@@ -41,14 +43,16 @@ export const getTokenAsync = (email, password) => dispatch => {
         })
         .then(json => {
             dispatch(json.error ? loginFailure({ error: json.message }) : loginSuccess(json))
+            dispatch(endTask())
         })
         .catch(e => {
-            console.log(e)
             dispatch(loginFailure({ error: e.message }))
+            dispatch(endTask())
         })
 }
 
 export const registerAsync = (name, email, password, password_confirmation) => dispatch => {
+    dispatch(beginTask())
     dispatch(signUpRequest())
     return fetch(API_REGISTER, {
         headers: jsonHeader,
@@ -73,8 +77,10 @@ export const registerAsync = (name, email, password, password_confirmation) => d
         })
         .then(json => {
             dispatch(signUpFailure({ error: json.message }))
+            dispatch(endTask())
         })
         .catch(e => {
             dispatch(signUpFailure({ error: e.message }))
+            dispatch(endTask())
         })
 }
