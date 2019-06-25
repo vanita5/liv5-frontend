@@ -26,7 +26,7 @@ class TopNavigation extends React.Component {
                             <Dropdown item icon={null} text={
                                 <span>
                                     <Image avatar src="/logo.png" />
-                                    Username
+                                    {this.props.user.name}
                                 </span>
                             }>
                                 <Dropdown.Menu>
@@ -41,8 +41,12 @@ class TopNavigation extends React.Component {
     }
 }
 
+const mapStateToProps = state => ({
+    user: state.auth.get('user'),
+})
+
 const mapDispatchToProps = dispatch => ({
     logout: () => dispatch(logout()),
 })
 
-export default connect(null, mapDispatchToProps)(TopNavigation)
+export default connect(mapStateToProps, mapDispatchToProps)(TopNavigation)
