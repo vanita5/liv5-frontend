@@ -26,7 +26,7 @@ class TopNavigation extends React.Component {
                             <Dropdown item icon={null} text={
                                 <span>
                                     <Image avatar src="/logo.png" />
-                                    {this.props.user.name}
+                                    {this.props.user ? this.props.user.name : 'Username'}
                                 </span>
                             }>
                                 <Dropdown.Menu>
