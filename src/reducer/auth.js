@@ -1,17 +1,17 @@
 import Immutable from 'immutable'
 
-import { types } from '../action/auth'
+import { types } from '../action/types'
 
 const initialState = Immutable.fromJS({
     auth: {
         authorized: false,
         loading: false,
         error: null,
-        username: null,
         token: null,
         refresh_token: null,
         expires_in: null,
-    }
+    },
+    user: null,
 })
 
 const authReducer = (state = initialState, action) => {
@@ -47,11 +47,16 @@ const authReducer = (state = initialState, action) => {
                 authorized: false,
                 loading: false,
                 error: null,
-                username: null,
+                user: null,
                 token: null,
                 refresh_token: null,
                 expires_in: null,
             })
+
+        case types.GET_USER_SUCCESS:
+            return state.set('user', action.payload)
+        case types.GET_USER_FAILURE:
+            return state.set('user', null)
 
         default:
             return state

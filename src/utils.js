@@ -10,3 +10,5 @@ export const authHeader = token => ({
     'Accept': 'application/json',
     'Content-Type': 'application/json',
 })
+
+export const isTokenExpired = expires => new Date(expires).getTime() <= 300
