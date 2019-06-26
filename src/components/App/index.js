@@ -5,6 +5,7 @@ import { Link, Route, withRouter } from 'react-router-dom'
 import LoginPage from '../LoginPage'
 import TopNavigation from '../TopNavigation'
 import Todos from '../Todos'
+import Todo from '../Todo'
 import Module2 from '../Module2'
 import Module3 from '../Module3'
 
@@ -45,7 +46,8 @@ class App extends React.Component {
                         </Menu>
                     </div>
                     <div className="content5">
-                        <Route path={ROUTES.TODOS} component={Todos} />
+                        <Route exact path={ROUTES.TODOS} component={Todos} />
+                        <Route path={ROUTES.TODO()} component={Todo} />
                         <Route path={ROUTES.MODULE2} component={Module2} />
                         <Route path={ROUTES.MODULE3} component={Module3} />
                     </div>
