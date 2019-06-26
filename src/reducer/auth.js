@@ -1,6 +1,6 @@
 import Immutable from 'immutable'
 
-import { types } from '../action/types'
+import { authTypes } from '../action/authTypes'
 
 const initialState = Immutable.fromJS({
     auth: {
@@ -16,12 +16,12 @@ const initialState = Immutable.fromJS({
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
-        case types.LOGIN_REQUEST:
+        case authTypes.LOGIN_REQUEST:
             return state.set('auth', {
                 loading: true,
             })
 
-        case types.LOGIN_SUCCESS:
+        case authTypes.LOGIN_SUCCESS:
             return state.set('auth', {
                 authorized: true,
                 loading: false,
@@ -31,8 +31,8 @@ const authReducer = (state = initialState, action) => {
                 expires_in: action.payload.expires_in,
             })
 
-        case types.SIGNUP_FAILURE:
-        case types.LOGIN_FAILURE:
+        case authTypes.SIGNUP_FAILURE:
+        case authTypes.LOGIN_FAILURE:
             return state.set('auth', {
                 authorized: false,
                 loading: false,
@@ -42,7 +42,7 @@ const authReducer = (state = initialState, action) => {
                 expires_in: null,
             })
 
-        case types.LOGOUT:
+        case authTypes.LOGOUT:
             return state.set('auth', {
                 authorized: false,
                 loading: false,
@@ -53,9 +53,9 @@ const authReducer = (state = initialState, action) => {
                 expires_in: null,
             })
 
-        case types.GET_USER_SUCCESS:
+        case authTypes.GET_USER_SUCCESS:
             return state.set('user', action.payload)
-        case types.GET_USER_FAILURE:
+        case authTypes.GET_USER_FAILURE:
             return state.set('user', null)
 
         default:

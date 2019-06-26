@@ -1,4 +1,4 @@
-const types = {
+const authTypes = {
     LOGIN_REQUEST: 'LOGIN_REQUEST',
     LOGIN_SUCCESS: 'LOGIN_SUCCESS',
     LOGIN_FAILURE: 'LOGIN_FAILURE',
@@ -10,4 +10,10 @@ const types = {
     GET_USER_FAILURE: 'GET_USER_FAILURE',
 }
 
-export { types }
+const types = {
+    GET_TODOS_REQUEST: 'GET_TODOS_REQUEST',
+    GET_TODOS_SUCCESS: 'GET_TODOS_SUCCESS',
+    GET_TODOS_FAILURE: 'GET_TODOS_FAILURE',
+}
+
+export { authTypes, types }

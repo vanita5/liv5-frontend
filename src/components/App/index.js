@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Link, Route, withRouter } from 'react-router-dom'
 import LoginPage from '../LoginPage'
 import TopNavigation from '../TopNavigation'
-import Module1 from '../Module1'
+import Todos from '../Todos'
 import Module2 from '../Module2'
 import Module3 from '../Module3'
 
@@ -28,9 +28,10 @@ class App extends React.Component {
                         <Menu fluid vertical pointing secondary>
                             <Menu.Item
                                 as={Link}
-                                name="Modul 1"
-                                active={this.props.location.pathname === ROUTES.MODULE1}
-                                to={ROUTES.MODULE1} />
+                                name="Todo"
+                                icon="tasks"
+                                active={this.props.location.pathname === ROUTES.TODOS}
+                                to={ROUTES.TODOS} />
                             <Menu.Item
                                 as={Link}
                                 name="Modul 2"
@@ -44,7 +45,7 @@ class App extends React.Component {
                         </Menu>
                     </div>
                     <div className="content5">
-                        <Route path={ROUTES.MODULE1} component={Module1} />
+                        <Route path={ROUTES.TODOS} component={Todos} />
                         <Route path={ROUTES.MODULE2} component={Module2} />
                         <Route path={ROUTES.MODULE3} component={Module3} />
                     </div>

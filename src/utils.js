@@ -12,3 +12,10 @@ export const authHeader = token => ({
 })
 
 export const isTokenExpired = expires => new Date(expires).getTime() <= 300
+
+export const refreshTokenIfNeeded = (auth, dispatch, refreshFunc) => {
+    if (isTokenExpired(auth.expires_in)) {
+        console.warn('Token expired.')
+        dispatch(refreshFunc())
+    }
+}

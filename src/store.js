@@ -7,6 +7,7 @@ import storage from 'redux-persist/lib/storage/session'
 import { nprogress } from 'redux-nprogress'
 import { isProd } from './utils'
 import authReducer from './reducer/auth'
+import liv5Reducer from './reducer/liv5'
 import migrations  from './migrations'
 
 const persistConfig = {
@@ -20,6 +21,7 @@ const persistConfig = {
 
 const reducer = combineReducers({
     auth: authReducer,
+    liv5: liv5Reducer,
     nprogress,
 })
 

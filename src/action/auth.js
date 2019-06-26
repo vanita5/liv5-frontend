@@ -2,22 +2,26 @@ import 'isomorphic-fetch'
 
 import { createAction } from 'redux-actions'
 import { beginTask, endTask } from 'redux-nprogress'
-import { API_GET_TOKEN, API_GET_USER, API_REGISTER } from '../constants/routes'
 import { CLIENT_ID, CLIENT_SECRET } from '../constants/constants'
-import { authHeader, jsonHeader, isTokenExpired } from '../utils'
-import { types } from './types'
+import { authHeader, jsonHeader, refreshTokenIfNeeded } from '../utils'
+import { authTypes } from './authTypes'
+import {
+    API_GET_TOKEN,
+    API_GET_USER,
+    API_REGISTER,
+} from '../constants/routes'
 
 import store from '../store'
 
-export const loginRequest = createAction(types.LOGIN_REQUEST)
-export const loginSuccess = createAction(types.LOGIN_SUCCESS)
-export const loginFailure = createAction(types.LOGIN_FAILURE)
-export const logout = createAction(types.LOGOUT)
-export const signUpRequest = createAction(types.SIGNUP_REQUEST)
-export const signUpFailure = createAction(types.SIGNUP_FAILURE)
-export const getUserRequest = createAction(types.GET_USER_REQUEST)
-export const getUserSuccess = createAction(types.GET_USER_SUCCESS)
-export const getUserFailure = createAction(types.GET_USER_FAILURE)
+export const loginRequest = createAction(authTypes.LOGIN_REQUEST)
+export const loginSuccess = createAction(authTypes.LOGIN_SUCCESS)
+export const loginFailure = createAction(authTypes.LOGIN_FAILURE)
+export const logout = createAction(authTypes.LOGOUT)
+export const signUpRequest = createAction(authTypes.SIGNUP_REQUEST)
+export const signUpFailure = createAction(authTypes.SIGNUP_FAILURE)
+export const getUserRequest = createAction(authTypes.GET_USER_REQUEST)
+export const getUserSuccess = createAction(authTypes.GET_USER_SUCCESS)
+export const getUserFailure = createAction(authTypes.GET_USER_FAILURE)
 
 
 export const getTokenAsync = (email, password) => dispatch => {
@@ -94,10 +98,7 @@ export const getUserAsync = () => dispatch => {
 
     const state = store.getState()
     const auth = state.auth.get('auth')
-    if (isTokenExpired(auth.expires_in)) {
-        console.warn('Token expired.')
-        dispatch(getTokenAsync())
-    }
+    refreshTokenIfNeeded(auth, dispatch, getTokenAsync)
 
     dispatch(getUserRequest())
     return fetch(API_GET_USER, {
