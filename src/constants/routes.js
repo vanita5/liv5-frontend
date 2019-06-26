@@ -10,6 +10,6 @@ export const API_REGISTER = `${API_BASE}/register`
 export const API_GET_USER = `${API_BASE}/api/user`
 export const API_GET_TODOS = `${API_BASE}/api/todos`
 
-export const TODOS = '/todos'
+export const TODOS = '/todo'
 export const MODULE2 = '/module2'
 export const MODULE3 = '/module3'
