@@ -16,6 +16,7 @@ const liv5Reducer = (state = initialState, action) => {
             return state.set('todos', action.payload)
 
         case types.GET_TODO_BY_ID_FAILURE:
+            return state.set('todo', { error: true })
         case types.GET_TODO_BY_ID_REQUEST:
             return state.set('todo', null)
         case types.GET_TODO_BY_ID_SUCCESS:

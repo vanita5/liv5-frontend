@@ -8,19 +8,22 @@ body {
 }
 
 .container5 > div {
-  padding-top: 6em;
-  padding-left: 15px;
-  padding-right: 15px;
 }
 
 .sidebar5 {
+  padding-top: 6em;
+  padding-left: 15px;
+  padding-right: 15px;
   flex-basis: 250px;
   flex-grow: 0;
   flex-shrink: 0;
+  height: 100vh;
   background-color: white;
   border-right: rgba(34,36,38,.1) 1px solid;
 }
 
-.content5 {
+.ui.segment.content5 {
+  margin: 6em 15px 1em;
   flex-grow: 1;
+  overflow: auto;
 }

@@ -13,6 +13,7 @@ import * as ROUTES from '../../constants/routes'
 
 import {
     Menu,
+    Segment,
 } from 'semantic-ui-react'
 
 import './style.scss'
@@ -45,12 +46,12 @@ class App extends React.Component {
                                 to={ROUTES.MODULE3} />
                         </Menu>
                     </div>
-                    <div className="content5">
+                    <Segment className="content5">
                         <Route exact path={ROUTES.TODOS} component={Todos} />
                         <Route path={ROUTES.TODO()} component={Todo} />
                         <Route path={ROUTES.MODULE2} component={Module2} />
                         <Route path={ROUTES.MODULE3} component={Module3} />
-                    </div>
+                    </Segment>
                 </div>
             </div>
         )
