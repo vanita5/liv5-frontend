@@ -5,10 +5,7 @@ import { List, Checkbox } from 'semantic-ui-react'
 
 import { getTodosAsync } from '../../action/liv5'
 
-import './style.scss'
-
 class Todos extends React.Component {
-
     componentDidMount() {
         this.props.getTodos()
     }
