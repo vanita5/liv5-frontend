@@ -1,8 +1,9 @@
 import React from 'react'
 import moment from 'moment'
 import { connect } from 'react-redux'
-import { List, Checkbox } from 'semantic-ui-react'
+import { List } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import { getTodos } from '../../selector/todoSelector'
 
 import ContentHeader from '../ContentHeader'
 
@@ -38,7 +39,7 @@ class Todos extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    todos: state.liv5.get('todos'),
+    todos: getTodos(state),
 })
 
 const mapDispatchToProps = dispatch => ({

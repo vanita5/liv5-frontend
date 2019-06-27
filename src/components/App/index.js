@@ -2,6 +2,7 @@ import React from 'react'
 
 import { connect } from 'react-redux'
 import { Link, Route, withRouter } from 'react-router-dom'
+import { makeGetAuth } from '../../selector/authSelector'
 import LoginPage from '../LoginPage'
 import TopNavigation from '../TopNavigation'
 import Todos from '../Todos'
@@ -17,6 +18,8 @@ import {
 } from 'semantic-ui-react'
 
 import './style.scss'
+
+const getAuth = makeGetAuth()
 
 class App extends React.Component {
     render() {
@@ -59,7 +62,7 @@ class App extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    auth: state.auth.get('auth'),
+    auth: getAuth(state),
 })
 
 export default withRouter(connect(mapStateToProps)(App))

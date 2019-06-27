@@ -4,10 +4,14 @@ import { connect } from 'react-redux'
 
 import { Grid, Segment, Feed, Placeholder } from 'semantic-ui-react'
 import ContentHeader from '../ContentHeader'
+import { getTodo } from '../../selector/todoSelector'
+import { makeGetAuth } from '../../selector/authSelector'
 
 import { getTodoByIdAsync } from '../../action/liv5'
 
 import './style.scss'
+
+const getAuth = makeGetAuth()
 
 class Todo extends React.Component {
     componentDidMount() {
@@ -75,8 +79,8 @@ class Todo extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    todo: state.liv5.get('todo'),
-    user: state.auth.get('user'),
+    todo: getTodo(state),
+    user: getAuth(state),
 })
 
 const mapDispatchToProps = dispatch => ({

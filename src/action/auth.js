@@ -5,6 +5,7 @@ import { beginTask, endTask } from 'redux-nprogress'
 import { CLIENT_ID, CLIENT_SECRET } from '../constants/constants'
 import { authHeader, jsonHeader, refreshTokenIfNeeded } from '../utils'
 import { authTypes } from './authTypes'
+import { makeGetAuth } from '../selector/authSelector'
 import {
     API_GET_TOKEN,
     API_GET_USER,
@@ -12,6 +13,8 @@ import {
 } from '../constants/routes'
 
 import store from '../store'
+
+const getAuth = makeGetAuth()
 
 export const loginRequest = createAction(authTypes.LOGIN_REQUEST)
 export const loginSuccess = createAction(authTypes.LOGIN_SUCCESS)
@@ -97,7 +100,7 @@ export const getUserAsync = () => dispatch => {
     dispatch(beginTask())
 
     const state = store.getState()
-    const auth = state.auth.get('auth')
+    const auth = getAuth(state)
     refreshTokenIfNeeded(auth, dispatch, getTokenAsync)
 
     dispatch(getUserRequest())

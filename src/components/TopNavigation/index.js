@@ -8,6 +8,7 @@ import {
     Button,
     Dropdown,
 } from 'semantic-ui-react'
+import { getUser } from '../../selector/authSelector'
 
 class TopNavigation extends React.Component {
     render() {
@@ -42,7 +43,7 @@ class TopNavigation extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    user: state.auth.get('user'),
+    user: getUser(state),
 })
 
 const mapDispatchToProps = dispatch => ({

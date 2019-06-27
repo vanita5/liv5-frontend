@@ -2,6 +2,7 @@ import React from 'react'
 
 import { connect } from 'react-redux'
 import { getTokenAsync, registerAsync } from '../../action/auth'
+import { makeGetAuth } from '../../selector/authSelector'
 import {
     Button,
     Message,
@@ -11,6 +12,8 @@ import {
     Segment,
     Icon,
 } from 'semantic-ui-react'
+
+const getAuth = makeGetAuth()
 
 class LoginPage extends React.Component {
     constructor(props) {
@@ -162,7 +165,7 @@ class LoginPage extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    auth: state.auth.get('auth'),
+    auth: getAuth(state),
 })
 
 const mapDispatchToProps = dispatch => ({

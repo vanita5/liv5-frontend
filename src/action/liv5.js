@@ -6,8 +6,11 @@ import { getTokenAsync } from './auth'
 import { authHeader,  refreshTokenIfNeeded } from '../utils'
 import { types } from './authTypes'
 import {API_GET_TODO_BY_ID, API_GET_TODOS} from '../constants/routes'
+import { makeGetAuth } from '../selector/authSelector'
 
 import store from '../store'
+
+const getAuth = makeGetAuth()
 
 export const getTodosRequest = createAction(types.GET_TODOS_REQUEST)
 export const getTodosSuccess = createAction(types.GET_TODOS_SUCCESS)
@@ -17,7 +20,7 @@ export const getTodosAsync = () => dispatch => {
     dispatch(beginTask())
 
     const state = store.getState()
-    const auth = state.auth.get('auth')
+    const auth = getAuth(state)
     refreshTokenIfNeeded(auth, dispatch, getTokenAsync)
 
     dispatch(getTodosRequest())
@@ -47,7 +50,7 @@ export const getTodoByIdAsync = id => dispatch => {
     dispatch(beginTask())
 
     const state = store.getState()
-    const auth = state.auth.get('auth')
+    const auth = getAuth(state)
     refreshTokenIfNeeded(auth, dispatch, getTokenAsync)
 
     dispatch(getTodoByIdRequest())
