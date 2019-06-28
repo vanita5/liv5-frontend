@@ -1,17 +1,14 @@
 import React from 'react'
-import moment from 'moment'
 import { connect } from 'react-redux'
 
-import { Grid, Segment, Feed, Placeholder } from 'semantic-ui-react'
+import { Placeholder } from 'semantic-ui-react'
+import TodoView from './TodoView'
 import ContentHeader from '../ContentHeader'
 import { getTodo } from '../../selector/todoSelector'
-import { makeGetAuth } from '../../selector/authSelector'
+import { getUser } from '../../selector/authSelector'
 
 import { getTodoByIdAsync } from '../../action/liv5'
-
 import './style.scss'
-
-const getAuth = makeGetAuth()
 
 class Todo extends React.Component {
     componentDidMount() {
@@ -19,7 +16,6 @@ class Todo extends React.Component {
     }
 
     render() {
-        console.log(this.props.todo)
         return (
             <div>
                 <ContentHeader
@@ -30,49 +26,7 @@ class Todo extends React.Component {
                         </div>
                     }
                     subtitle={this.props.todo ? this.props.todo.title : <Placeholder><Placeholder.Line /></Placeholder>} />
-                <Grid divided>
-                    <Grid.Column width={13}>
-                        <Segment basic>
-                            <Segment placeholder loading={!this.props.todo}>
-                                {this.props.todo && this.props.todo.description}
-                            </Segment>
-                            {!this.props.todo &&
-                                <Placeholder>
-                                    <Placeholder.Header image>
-                                        <Placeholder.Line />
-                                        <Placeholder.Line />
-                                        <Placeholder.Line />
-                                    </Placeholder.Header>
-                                </Placeholder>}
-                            {this.props.todo &&
-                                <Feed>
-                                    <Feed.Event>
-                                        <Feed.Label image="/logo.png" />
-                                        <Feed.Content>
-                                            <Feed.Summary>
-                                                <Feed.User>{this.props.user.name}</Feed.User> updated this task
-                                                <Feed.Date>{moment(this.props.todo ? this.props.todo.updated_at : null).fromNow()}</Feed.Date>
-                                            </Feed.Summary>
-                                        </Feed.Content>
-                                    </Feed.Event>
-                                    <Feed.Event>
-                                        <Feed.Label image="/logo.png" />
-                                        <Feed.Content>
-                                            <Feed.Summary>
-                                                <Feed.User>{this.props.user.name}</Feed.User> created this task
-                                                <Feed.Date>{moment(this.props.todo ? this.props.todo.created_at : null).fromNow()}</Feed.Date>
-                                            </Feed.Summary>
-                                        </Feed.Content>
-                                    </Feed.Event>
-                                </Feed>}
-                        </Segment>
-                    </Grid.Column>
-                    <Grid.Column width={3}>
-                        <Segment>
-
-                        </Segment>
-                    </Grid.Column>
-                </Grid>
+                <TodoView todo={this.props.todo} user={this.props.user} />
             </div>
         )
     }
@@ -80,7 +34,7 @@ class Todo extends React.Component {
 
 const mapStateToProps = state => ({
     todo: getTodo(state),
-    user: getAuth(state),
+    user: getUser(state),
 })
 
 const mapDispatchToProps = dispatch => ({

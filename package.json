@@ -11,6 +11,7 @@
     "nprogress": "^0.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-mde": "^7.5.0",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
@@ -22,7 +23,9 @@
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.87.2"
+    "semantic-ui-react": "^0.87.2",
+    "showdown": "^1.9.0",
+    "showdown-xss-filter": "^0.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
