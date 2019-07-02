@@ -4,7 +4,7 @@ import ReactMde from 'react-mde'
 import * as Showdown from 'showdown'
 import xssFilter from 'showdown-xss-filter'
 
-import { Feed, Grid, Placeholder, Segment } from 'semantic-ui-react'
+import { Feed, Grid, Placeholder, Segment, Icon } from 'semantic-ui-react'
 
 import 'react-mde/lib/styles/scss/react-mde-all.scss'
 
@@ -50,6 +50,25 @@ class TodoView extends React.Component {
         this.setState({ tab })
     }
 
+    getWriteButton() {
+        const isPreview = this.state.tab === 'preview'
+        return (
+            <span>
+                <Icon name={isPreview ? 'edit' : 'save'} />
+                {isPreview ? 'Edit' : 'Save'}
+            </span>
+        )
+    }
+
+    getPreviewButton() {
+        return this.state.tab !== 'preview' && (
+            <span>
+                <Icon name='cancel' />
+                Cancel
+            </span>
+        )
+    }
+
     render() {
         const { user, todo } = this.props
         return (
@@ -61,11 +80,12 @@ class TodoView extends React.Component {
                         {this.state.mde !== null &&
                             <ReactMde
                                 l18n={{
-                                    write: this.state.tab === 'preview' ? 'Edit' : 'Save',
-                                    preview: this.state.tab === 'write' && 'Cancel',
+                                    write: this.getWriteButton(),
+                                    preview: this.getPreviewButton(),
                                 }}
                                 value={this.state.mde}
                                 selectedTab={this.state.tab}
+                                className={this.state.tab}
                                 onChange={mde => this.handleMdeChange(mde)}
                                 onTabChange={tab => this.handleTabChange(tab)}
                                 generateMarkdownPreview={markdown => Promise.resolve(this.converter.makeHtml(markdown))} />}

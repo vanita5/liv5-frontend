@@ -1,34 +1,42 @@
-.mde-header {
-  .mde-tabs {
-    button {
-      box-shadow: 0 0 0 0 rgba(34,36,38,.15) inset;
-      background-color: #e0e1e2;
-      color: rgba(0,0,0,.6);
-      font-size: 1rem;
-      display: inline-block;
-      min-height: 1em;
-      outline: 0;
-      border: none;
-      font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
-      margin: 0;
-      padding: .78571429em 1.5em .78571429em;
-      font-weight: 700;
-      line-height: 1em;
-      font-style: normal;
-      text-align: center;
-      text-decoration: none;
-      &:first-child {
+.react-mde {
+  display: flex;
+  flex-direction: column;
+  .grip {
+    height: 15px;
+    background: none;
+    border: none;
+    & ~ .mde-header {
+      background-color: red;
+    }
+  }
+  .mde-header {
+    order: 3;
+    .mde-tabs {
+      button {
+        font-size: 1rem;
+        display: inline-block;
+        min-height: 1em;
+        outline: 0;
+        border: none;
+        font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
         margin: 0;
-        &.selected {
-          background-color: #21ba45;
-          color: #fff;
+        padding: .78571429em 1.5em .78571429em;
+        font-weight: 700;
+        line-height: 1em;
+        font-style: normal;
+        text-align: center;
+        text-decoration: none;
+
+        &:first-child {
+          margin: 0;
         }
-      }
-      &:nth-child(2) {
-        &.selected {
-          border: none;
-          width: 0;
-          padding: 0;
+
+        &:nth-child(2) {
+          &.selected {
+            border: none;
+            width: 0;
+            padding: 0;
+          }
         }
       }
     }
