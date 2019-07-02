@@ -109,7 +109,6 @@ class TodoView extends React.Component {
                             <Feed>
                                 {todo.events.map(event => (
                                     <Feed.Event key={event.event_id}>
-                                        {console.log(event)}
                                         <Feed.Label image="/logo.png" />
                                         <Feed.Content>
                                             <Feed.Summary>
@@ -128,7 +127,7 @@ class TodoView extends React.Component {
                         <h5>Label</h5>
                         <div className="labels">
                             {todo && todo.labels.map(label => (
-                                <Label color={label.color}>
+                                <Label color={label.color} key={label.label_id}>
                                     <Icon name={label.icon} />
                                     {label.name}
                                 </Label>
