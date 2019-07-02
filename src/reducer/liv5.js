@@ -10,13 +10,14 @@ const initialState = Immutable.fromJS({
 const liv5Reducer = (state = initialState, action) => {
     switch (action.type) {
         case types.GET_TODOS_FAILURE:
+            return state.set('todos', null)
         case types.GET_TODOS_REQUEST:
             return state.set('todos', [])
         case types.GET_TODOS_SUCCESS:
             return state.set('todos', action.payload)
 
         case types.GET_TODO_BY_ID_FAILURE:
-            return state.set('todo', { error: true })
+            return state.set('todo', { error: action.payload })
         case types.GET_TODO_BY_ID_REQUEST:
             return state.set('todo', null)
         case types.GET_TODO_BY_ID_SUCCESS:

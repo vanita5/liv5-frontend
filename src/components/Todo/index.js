@@ -26,7 +26,7 @@ class Todo extends React.Component {
                         </div>
                     }
                     subtitle={this.props.todo ? this.props.todo.title : <Placeholder><Placeholder.Line /></Placeholder>} />
-                <TodoView todo={this.props.todo} user={this.props.user} />
+                <TodoView todo={this.props.todo} user={this.props.user} todoId={this.props.match.params.id} />
             </div>
         )
     }

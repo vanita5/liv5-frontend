@@ -1,8 +1,15 @@
 import React from 'react'
 import moment from 'moment'
 import { connect } from 'react-redux'
-import {Icon, Label, List} from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import {
+    Icon,
+    Label,
+    List,
+    Message,
+    Dimmer,
+    Loader,
+} from 'semantic-ui-react'
 import { getTodos } from '../../selector/todoSelector'
 
 import ContentHeader from '../ContentHeader'
@@ -22,8 +29,11 @@ class Todos extends React.Component {
         return (
             <div id="todo">
                 <ContentHeader icon="tasks" title="Todos" subtitle="Manage you tasks." />
+                <Dimmer active={this.props.todos && this.props.todos.length === 0} inverted>
+                    <Loader size='medium'>Loading</Loader>
+                </Dimmer>
                 <List divided selection relaxed>
-                    {this.props.todos.map(todo => (
+                    {this.props.todos && this.props.todos.map(todo => (
                         <List.Item key={todo.todo_id} as={Link} to={ROUTES.TODO(todo.todo_id)}>
                             <List.Icon name="check circle outline" size="large" verticalAlign="middle" />
                             <List.Content>
@@ -41,6 +51,13 @@ class Todos extends React.Component {
                         </List.Item>
                     ))}
                 </List>
+                {!this.props.todos &&
+                    <Message
+                        negative
+                        icon='warning sign'
+                        header="Sorry, we couldn't load your Todos"
+                        content='Try again later!'
+                        style={{ maxWidth: 350, margin: '150px auto' }}/>}
             </div>
         )
     }

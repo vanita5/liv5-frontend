@@ -12,6 +12,7 @@ import {
     Divider,
     Icon,
     Label,
+    Message,
 } from 'semantic-ui-react'
 
 import 'react-mde/lib/styles/scss/react-mde-all.scss'
@@ -79,6 +80,14 @@ class TodoView extends React.Component {
 
     render() {
         const { user, todo } = this.props
+        if (todo && todo.error) return (
+            <Message
+                negative
+                icon='warning sign'
+                header={`Sorry, we couldn't load Todo #${this.props.todoId}`}
+                content='Are you sure this todo even exists? /o\'
+                style={{ maxWidth: 350, margin: '150px auto' }}/>
+        )
         return (
             <Grid divided>
                 <Grid.Column width={13}>
