@@ -19,3 +19,14 @@ export const refreshTokenIfNeeded = (auth, dispatch, refreshFunc) => {
         dispatch(refreshFunc())
     }
 }
+
+export const getEventText = type => {
+    switch (type) {
+        case 'CREATED':
+            return 'created this task.'
+        case 'COMMENT':
+            return 'added a comment.'
+        default:
+            return type
+    }
+}

@@ -3,7 +3,7 @@ import moment from 'moment'
 import ReactMde from 'react-mde'
 import * as Showdown from 'showdown'
 import xssFilter from 'showdown-xss-filter'
-
+import { getEventText } from '../../../utils'
 import {
     Feed,
     Grid,
@@ -107,24 +107,19 @@ class TodoView extends React.Component {
                             </Placeholder>}
                         {todo &&
                             <Feed>
-                                <Feed.Event>
-                                    <Feed.Label image="/logo.png" />
-                                    <Feed.Content>
-                                        <Feed.Summary>
-                                            <Feed.User>{user.name}</Feed.User> updated this task
-                                            <Feed.Date>{moment(todo.updated_at).fromNow()}</Feed.Date>
-                                        </Feed.Summary>
-                                    </Feed.Content>
-                                </Feed.Event>
-                                <Feed.Event>
-                                    <Feed.Label image="/logo.png" />
-                                    <Feed.Content>
-                                        <Feed.Summary>
-                                            <Feed.User>{user.name}</Feed.User> created this task
-                                            <Feed.Date>{moment(todo.created_at).fromNow()}</Feed.Date>
-                                        </Feed.Summary>
-                                    </Feed.Content>
-                                </Feed.Event>
+                                {todo.events.map(event => (
+                                    <Feed.Event key={event.event_id}>
+                                        {console.log(event)}
+                                        <Feed.Label image="/logo.png" />
+                                        <Feed.Content>
+                                            <Feed.Summary>
+                                                <Feed.User>{user.name}</Feed.User> {getEventText(event.type)}
+                                                <Feed.Date>{moment(event.created_at).fromNow()}</Feed.Date>
+                                            </Feed.Summary>
+                                            {event.comment && <Feed.Extra text>{event.comment}</Feed.Extra>}
+                                        </Feed.Content>
+                                    </Feed.Event>
+                                ))}
                             </Feed>}
                     </Segment>
                 </Grid.Column>
