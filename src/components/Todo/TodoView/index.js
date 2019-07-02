@@ -4,7 +4,15 @@ import ReactMde from 'react-mde'
 import * as Showdown from 'showdown'
 import xssFilter from 'showdown-xss-filter'
 
-import { Feed, Grid, Placeholder, Segment, Icon } from 'semantic-ui-react'
+import {
+    Feed,
+    Grid,
+    Placeholder,
+    Segment,
+    Divider,
+    Icon,
+    Label,
+} from 'semantic-ui-react'
 
 import 'react-mde/lib/styles/scss/react-mde-all.scss'
 
@@ -122,7 +130,17 @@ class TodoView extends React.Component {
                 </Grid.Column>
                 <Grid.Column width={3}>
                     <Segment>
-
+                        <h5>Label</h5>
+                        <div className="labels">
+                            {todo && todo.labels.map(label => (
+                                <Label color={label.color}>
+                                    <Icon name={label.icon} />
+                                    {label.name}
+                                </Label>
+                            ))}
+                            {!todo && <Placeholder><Placeholder.Line length='short'/></Placeholder>}
+                        </div>
+                        <Divider />
                     </Segment>
                 </Grid.Column>
             </Grid>
