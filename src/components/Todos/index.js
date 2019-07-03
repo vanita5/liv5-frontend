@@ -15,6 +15,7 @@ import {
 import { getTodosFilteredByQuery, getTodoQuery } from '../../selector/todoSelector'
 
 import ContentHeader from '../ContentHeader'
+import ModalCreateTodo from '../ModalCreateTodo'
 
 import { getTodosAsync, setTodoQuery } from '../../action/liv5'
 
@@ -23,6 +24,13 @@ import * as ROUTES from '../../constants/routes'
 import './style.scss'
 
 class Todos extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            modalOpen: true, //FIXME
+        }
+    }
+
     componentDidMount() {
         this.props.getTodos()
     }
@@ -37,12 +45,20 @@ class Todos extends React.Component {
             (!this.props.query || this.props.query.length === 0)
     }
 
+    handleOpenModal() {
+        this.setState({ modalOpen: true })
+    }
+
+    handleCloseModal() {
+        this.setState({ modalOpen: false })
+    }
+
     render() {
         return (
             <div id="todo">
                 <ContentHeader icon="tasks" title="Todos" subtitle="Manage you tasks." />
                 <Menu attached='top'>
-                    <Menu.Item as='a' icon='add' />
+                    <Menu.Item as='a' icon='add' onClick={() => this.handleOpenModal()} />
                     <Menu.Item position='right'>
                         <Input
                             className='icon'
@@ -80,6 +96,7 @@ class Todos extends React.Component {
                         header="Sorry, we couldn't load your Todos"
                         content='Try again later!'
                         style={{ maxWidth: 350, margin: '150px auto' }}/>}
+                <ModalCreateTodo open={this.state.modalOpen} onCloseHandler={() => this.handleCloseModal()} />
             </div>
         )
     }

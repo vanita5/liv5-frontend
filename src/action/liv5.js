@@ -5,7 +5,7 @@ import { beginTask, endTask } from 'redux-nprogress'
 import { getTokenAsync } from './auth'
 import { authHeader,  refreshTokenIfNeeded } from '../utils'
 import { types } from './types'
-import {API_GET_TODO_BY_ID, API_GET_TODOS} from '../constants/routes'
+import * as ROUTES from '../constants/routes'
 import { makeGetAuth } from '../selector/authSelector'
 
 import store from '../store'
@@ -24,7 +24,7 @@ export const getTodosAsync = () => dispatch => {
     refreshTokenIfNeeded(auth, dispatch, getTokenAsync)
 
     dispatch(getTodosRequest())
-    return fetch(API_GET_TODOS, {
+    return fetch(ROUTES.API_GET_TODOS, {
         headers: authHeader(auth.token),
         method: 'GET',
     })
@@ -54,7 +54,7 @@ export const getTodoByIdAsync = id => dispatch => {
     refreshTokenIfNeeded(auth, dispatch, getTokenAsync)
 
     dispatch(getTodoByIdRequest())
-    return fetch(API_GET_TODO_BY_ID(id), {
+    return fetch(ROUTES.API_GET_TODO_BY_ID(id), {
         headers: authHeader(auth.token),
         method: 'GET',
     })
@@ -69,6 +69,33 @@ export const getTodoByIdAsync = id => dispatch => {
         .catch(e => {
             dispatch(getTodoByIdFailure(e.message))
             dispatch(endTask())
+        })
+}
+
+export const getLabelsRequest = createAction(types.GET_LABELS_REQUEST)
+export const getLabelsSuccess = createAction(types.GET_LABELS_SUCCESS)
+export const getLabelsFailure = createAction(types.GET_LABELS_FAILURE)
+
+export const getLabelsAsync = () => dispatch => {
+    const state = store.getState()
+    const auth = getAuth(state)
+    refreshTokenIfNeeded(auth, dispatch, getTokenAsync)
+
+    dispatch(getLabelsRequest())
+    return fetch(ROUTES.API_GET_LABELS, {
+        headers: authHeader(auth.token),
+        method: 'GET',
+    })
+        .then(res => {
+            if (!res.ok) throw Error(res.statusText)
+            return res.json()
+        })
+        .then(json => {
+            dispatch(getLabelsSuccess(json))
+        })
+        .catch(e => {
+            console.error(e)
+            dispatch(getLabelsFailure(e))
         })
 }
 

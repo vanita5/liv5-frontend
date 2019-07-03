@@ -6,6 +6,7 @@ const initialState = Immutable.fromJS({
     todos: [],
     todo: null,
     todo_q: null,
+    labels: [],
 })
 
 const liv5Reducer = (state = initialState, action) => {
@@ -24,8 +25,11 @@ const liv5Reducer = (state = initialState, action) => {
         case types.GET_TODO_BY_ID_SUCCESS:
             return state.set('todo', action.payload)
 
+        case types.GET_LABELS_SUCCESS:
+            return state.set('labels', action.payload)
+
         case types.SET_TODO_QUERY:
-            return state.set('todo_q', action.payload)
+            return state.set('todo_q', action.payload || [])
 
         default:
             return state

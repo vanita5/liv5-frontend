@@ -2,7 +2,6 @@ import React from 'react'
 import moment from 'moment'
 import ReactMde from 'react-mde'
 import * as Showdown from 'showdown'
-import xssFilter from 'showdown-xss-filter'
 import { getEventText } from '../../../utils'
 import {
     Feed,
@@ -34,7 +33,6 @@ class TodoView extends React.Component {
             simplifiedAutoLink: true,
             strikethrough: true,
             tasklists: true,
-            extensions: [ xssFilter ],
         })
     }
 
