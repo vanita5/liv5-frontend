@@ -1,6 +1,6 @@
 import Immutable from 'immutable'
 
-import { authTypes } from '../action/authTypes'
+import { authTypes } from '../action/types'
 
 const initialState = Immutable.fromJS({
     auth: {

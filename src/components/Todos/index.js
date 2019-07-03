@@ -9,12 +9,14 @@ import {
     Message,
     Dimmer,
     Loader,
+    Menu,
+    Input,
 } from 'semantic-ui-react'
-import { getTodos } from '../../selector/todoSelector'
+import { getTodosFilteredByQuery, getTodoQuery } from '../../selector/todoSelector'
 
 import ContentHeader from '../ContentHeader'
 
-import { getTodosAsync } from '../../action/liv5'
+import { getTodosAsync, setTodoQuery } from '../../action/liv5'
 
 import * as ROUTES from '../../constants/routes'
 
@@ -25,11 +27,31 @@ class Todos extends React.Component {
         this.props.getTodos()
     }
 
+    handleSearchChange(event) {
+        this.props.setTodoQuery(event.target.value)
+    }
+
+    isLoading() {
+        return this.props.todos &&
+            this.props.todos.length === 0 &&
+            (!this.props.query || this.props.query.length === 0)
+    }
+
     render() {
         return (
             <div id="todo">
                 <ContentHeader icon="tasks" title="Todos" subtitle="Manage you tasks." />
-                <Dimmer active={this.props.todos && this.props.todos.length === 0} inverted>
+                <Menu attached='top'>
+                    <Menu.Item as='a' icon='add' />
+                    <Menu.Item position='right'>
+                        <Input
+                            className='icon'
+                            icon='search'
+                            placeholder='Search...'
+                            onChange={e => this.handleSearchChange(e)} />
+                    </Menu.Item>
+                </Menu>
+                <Dimmer active={this.isLoading()} inverted>
                     <Loader size='medium'>Loading</Loader>
                 </Dimmer>
                 <List divided selection relaxed>
@@ -64,11 +86,13 @@ class Todos extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    todos: getTodos(state),
+    todos: getTodosFilteredByQuery(state),
+    query: getTodoQuery(state),
 })
 
 const mapDispatchToProps = dispatch => ({
     getTodos: () => dispatch(getTodosAsync()),
+    setTodoQuery: q => dispatch(setTodoQuery(q)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todos)

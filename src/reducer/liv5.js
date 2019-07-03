@@ -1,10 +1,11 @@
 import Immutable from 'immutable'
 
-import { types } from '../action/authTypes'
+import { types } from '../action/types'
 
 const initialState = Immutable.fromJS({
     todos: [],
     todo: null,
+    todo_q: null,
 })
 
 const liv5Reducer = (state = initialState, action) => {
@@ -22,6 +23,9 @@ const liv5Reducer = (state = initialState, action) => {
             return state.set('todo', null)
         case types.GET_TODO_BY_ID_SUCCESS:
             return state.set('todo', action.payload)
+
+        case types.SET_TODO_QUERY:
+            return state.set('todo_q', action.payload)
 
         default:
             return state

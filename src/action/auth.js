@@ -4,7 +4,7 @@ import { createAction } from 'redux-actions'
 import { beginTask, endTask } from 'redux-nprogress'
 import { CLIENT_ID, CLIENT_SECRET } from '../constants/constants'
 import { authHeader, jsonHeader, refreshTokenIfNeeded } from '../utils'
-import { authTypes } from './authTypes'
+import { authTypes } from './types'
 import { makeGetAuth } from '../selector/authSelector'
 import {
     API_GET_TOKEN,

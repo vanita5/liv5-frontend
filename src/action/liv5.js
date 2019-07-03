@@ -4,7 +4,7 @@ import { createAction } from 'redux-actions'
 import { beginTask, endTask } from 'redux-nprogress'
 import { getTokenAsync } from './auth'
 import { authHeader,  refreshTokenIfNeeded } from '../utils'
-import { types } from './authTypes'
+import { types } from './types'
 import {API_GET_TODO_BY_ID, API_GET_TODOS} from '../constants/routes'
 import { makeGetAuth } from '../selector/authSelector'
 
@@ -71,3 +71,5 @@ export const getTodoByIdAsync = id => dispatch => {
             dispatch(endTask())
         })
 }
+
+export const setTodoQuery = createAction(types.SET_TODO_QUERY)
