@@ -7,6 +7,7 @@ export const getTodosFilteredByQuery = createSelector(
     [ getTodos, getTodoQuery ],
     (todos, query) => {
         if (!query || query.length === 0) return todos
-        return todos.filter(todo => todo.title.includes(query))
+        query = query.toLowerCase()
+        return todos.filter(todo => todo.title.toLowerCase().includes(query))
     }
 )
