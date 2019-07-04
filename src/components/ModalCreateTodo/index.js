@@ -14,7 +14,7 @@ import {
 } from 'semantic-ui-react'
 
 import { getLabelsMappedToOptions } from '../../selector/labelSelector'
-import { getLabelsAsync } from '../../action/liv5'
+import { getLabelsAsync, postCreateTodoAsync } from '../../action/liv5'
 
 import './style.scss'
 
@@ -59,6 +59,15 @@ class ModalCreateTodo extends React.Component {
     handleClose() {
         this.setState(ModalCreateTodo.DEFAULT_STATE)
         this.props.onCloseHandler()
+    }
+
+    handleSave() {
+        this.props.createTodo(
+            this.state.title,
+            this.state.mde,
+            this.state.labels,
+        )
+        this.handleClose()
     }
 
     handleLabelsChange(labels) {
@@ -121,7 +130,7 @@ class ModalCreateTodo extends React.Component {
                 </Modal.Content>
                 <Modal.Actions>
                     <Button onClick={() => this.handleClose()}>Cancel</Button>
-                    <Button positive icon='save' content='Create' />
+                    <Button positive icon='save' content='Create' onClick={() => this.handleSave()} />
                 </Modal.Actions>
             </Modal>
         )
@@ -134,6 +143,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     getLabels: () => dispatch(getLabelsAsync()),
+    createTodo: (title, description, labels) => dispatch(postCreateTodoAsync(title, description, labels))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalCreateTodo)

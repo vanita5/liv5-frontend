@@ -11,6 +11,7 @@ export const API_GET_USER = `${API_BASE}/api/user`
 export const API_GET_TODOS = `${API_BASE}/api/todos`
 export const API_GET_LABELS = `${API_BASE}/api/labels`
 export const API_GET_TODO_BY_ID = id => `${API_BASE}/api/todo/${id}`
+export const API_POST_TODO_CREATE = `${API_BASE}/api/todo/create`
 
 export const TODOS = '/todo'
 export const TODO = id => `/todo/${id || ':id'}`

@@ -48,17 +48,15 @@ export const getTokenAsync = (email, password) => dispatch => {
         .then(json => {
             if (json.error) {
                 dispatch(loginFailure({ error: json.message }))
-                dispatch(endTask())
             } else {
                 dispatch(loginSuccess(json))
                 dispatch(getUserAsync())
-                dispatch(endTask())
             }
         })
         .catch(e => {
             dispatch(loginFailure({ error: e.message }))
-            dispatch(endTask())
         })
+        .finally(() => dispatch(endTask()))
 }
 
 export const registerAsync = (name, email, password, password_confirmation) => dispatch => {
@@ -81,19 +79,17 @@ export const registerAsync = (name, email, password, password_confirmation) => d
         .then(res => {
             if (res.status === 0) {
                 dispatch(getTokenAsync(email, password))
-                dispatch(endTask())
                 return
             }
             return res.json()
         })
         .then(json => {
             dispatch(signUpFailure({ error: json.message }))
-            dispatch(endTask())
         })
         .catch(e => {
             dispatch(signUpFailure({ error: e.message }))
-            dispatch(endTask())
         })
+        .finally(() => dispatch(endTask()))
 }
 
 export const getUserAsync = () => dispatch => {
@@ -114,10 +110,9 @@ export const getUserAsync = () => dispatch => {
         })
         .then(json => {
             dispatch(getUserSuccess(json))
-            dispatch(endTask())
         })
         .catch(e => {
             dispatch(getUserFailure({ error: e.message }))
-            dispatch(endTask())
         })
+        .finally(() => dispatch(endTask()))
 }

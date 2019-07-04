@@ -34,12 +34,11 @@ export const getTodosAsync = () => dispatch => {
         })
         .then(json => {
             dispatch(getTodosSuccess(json))
-            dispatch(endTask())
         })
         .catch(e => {
             dispatch(getTodosFailure(e.message))
-            dispatch(endTask())
         })
+        .finally(() => dispatch(endTask()))
 }
 
 export const getTodoByIdRequest = createAction(types.GET_TODO_BY_ID_REQUEST)
@@ -64,12 +63,11 @@ export const getTodoByIdAsync = id => dispatch => {
         })
         .then(json => {
             dispatch(getTodoByIdSuccess(json))
-            dispatch(endTask())
         })
         .catch(e => {
             dispatch(getTodoByIdFailure(e.message))
-            dispatch(endTask())
         })
+        .finally(() => dispatch(endTask()))
 }
 
 export const getLabelsRequest = createAction(types.GET_LABELS_REQUEST)
@@ -97,6 +95,42 @@ export const getLabelsAsync = () => dispatch => {
             console.error(e)
             dispatch(getLabelsFailure(e))
         })
+}
+
+
+export const postCreateTodoRequest = createAction(types.POST_CREATE_TODO_REQUEST)
+export const postCreateTodoSuccess = createAction(types.POST_CREATE_TODO_SUCCESS)
+export const postCreateTodoFailure = createAction(types.POST_CREATE_TODO_FAILURE)
+
+export const postCreateTodoAsync = (title, description, labels) => dispatch => {
+    dispatch(beginTask())
+
+    const state = store.getState()
+    const auth = getAuth(state)
+    refreshTokenIfNeeded(auth, dispatch, getTokenAsync)
+
+    dispatch(postCreateTodoRequest())
+    return fetch(ROUTES.API_POST_TODO_CREATE, {
+        headers: authHeader(auth.token),
+        method: 'POST',
+        body: JSON.stringify({
+            title,
+            description,
+            labels,
+        })
+    })
+        .then(res => {
+            if (!res.ok) throw Error(res.statusText)
+            return res.json()
+        })
+        .then(json => {
+            dispatch(postCreateTodoSuccess(json))
+        })
+        .catch(e => {
+            console.error(e)
+            dispatch(postCreateTodoFailure(e))
+        })
+        .finally(() => dispatch(endTask()))
 }
 
 export const setTodoQuery = createAction(types.SET_TODO_QUERY)
