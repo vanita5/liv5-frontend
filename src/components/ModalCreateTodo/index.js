@@ -65,11 +65,12 @@ class ModalCreateTodo extends React.Component {
         this.setState({ labels })
     }
 
-    renderLabel(label) {
+    renderLabel(label, defaultProps) {
         return (
             <Label color={label.label.color} key={label.key} horizontal>
                 <Icon name={label.label.icon} />
                 {label.text}
+                <Icon name='delete' onClick={e => defaultProps.onRemove(e, label)} />
             </Label>
         )
     }
@@ -114,7 +115,7 @@ class ModalCreateTodo extends React.Component {
                                 placeholder='Add some labels...'
                                 options={this.props.labels}
                                 onChange={(_, options) => this.handleLabelsChange(options.value)}
-                                renderLabel={label => this.renderLabel(label)}/>}
+                                renderLabel={(label, i, defaultProps) => this.renderLabel(label, defaultProps)}/>}
                         </Form.Field>
                     </Form>
                 </Modal.Content>
