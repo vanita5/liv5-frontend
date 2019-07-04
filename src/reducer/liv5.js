@@ -25,6 +25,10 @@ const liv5Reducer = (state = initialState, action) => {
         case types.GET_TODO_BY_ID_SUCCESS:
             return state.set('todo', action.payload)
 
+        case types.POST_CREATE_TODO_SUCCESS:
+            console.log(action.payload)
+            return state.set('todos', [...state.get('todos'), action.payload])
+
         case types.GET_LABELS_SUCCESS:
             return state.set('labels', action.payload)
 

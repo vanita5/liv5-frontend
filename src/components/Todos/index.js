@@ -27,7 +27,7 @@ class Todos extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            modalOpen: true, //FIXME
+            modalOpen: false,
         }
     }
 

@@ -131,6 +131,11 @@ class TodoView extends React.Component {
                 </Grid.Column>
                 <Grid.Column width={3}>
                     <Segment>
+                        <h5>Due Date</h5>
+                        <p>{todo && todo.due_date}</p>
+
+                        <Divider />
+
                         <h5>Label</h5>
                         <div className="labels">
                             {todo && todo.labels.map(label => (
@@ -141,7 +146,6 @@ class TodoView extends React.Component {
                             ))}
                             {!todo && <Placeholder><Placeholder.Line length='short'/></Placeholder>}
                         </div>
-                        <Divider />
                     </Segment>
                 </Grid.Column>
             </Grid>

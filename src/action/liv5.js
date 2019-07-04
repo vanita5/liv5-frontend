@@ -102,7 +102,7 @@ export const postCreateTodoRequest = createAction(types.POST_CREATE_TODO_REQUEST
 export const postCreateTodoSuccess = createAction(types.POST_CREATE_TODO_SUCCESS)
 export const postCreateTodoFailure = createAction(types.POST_CREATE_TODO_FAILURE)
 
-export const postCreateTodoAsync = (title, description, labels) => dispatch => {
+export const postCreateTodoAsync = (title, description, labels, due_date) => dispatch => {
     dispatch(beginTask())
 
     const state = store.getState()
@@ -117,6 +117,7 @@ export const postCreateTodoAsync = (title, description, labels) => dispatch => {
             title,
             description,
             labels,
+            due_date,
         })
     })
         .then(res => {

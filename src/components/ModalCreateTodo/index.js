@@ -2,7 +2,6 @@ import React from 'react'
 import ReactMde from 'react-mde'
 import { connect } from 'react-redux'
 import * as Showdown from 'showdown'
-
 import {
     Modal,
     Button,
@@ -12,20 +11,26 @@ import {
     Dropdown,
     Label,
 } from 'semantic-ui-react'
+import Calendar from 'rc-calendar'
+import DatePicker from 'rc-calendar/lib/Picker'
+import enUS from 'rc-calendar/lib/locale/en_US'
 
 import { getLabelsMappedToOptions } from '../../selector/labelSelector'
 import { getLabelsAsync, postCreateTodoAsync } from '../../action/liv5'
 
+import 'rc-calendar/assets/index.css'
 import './style.scss'
 
 class ModalCreateTodo extends React.Component {
     static PREVIEW = 'preview'
     static WRITE = 'write'
+    static FORMAT = 'YYYY-MM-DD'
 
     static DEFAULT_STATE = {
         title: '',
         mde: '',
         labels: [],
+        due_date: null,
         tab: ModalCreateTodo.WRITE,
     }
 
@@ -66,12 +71,17 @@ class ModalCreateTodo extends React.Component {
             this.state.title,
             this.state.mde,
             this.state.labels,
+            this.state.due_date,
         )
         this.handleClose()
     }
 
     handleLabelsChange(labels) {
         this.setState({ labels })
+    }
+
+    handleDatePickerChange(date) {
+        this.setState({ due_date: date ? date.format(ModalCreateTodo.FORMAT) : null })
     }
 
     renderLabel(label, defaultProps) {
@@ -81,6 +91,16 @@ class ModalCreateTodo extends React.Component {
                 {label.text}
                 <Icon name='delete' onClick={e => defaultProps.onRemove(e, label)} />
             </Label>
+        )
+    }
+
+    renderCalendar() {
+        return (
+            <Calendar
+                locale={enUS}
+                format={ModalCreateTodo.FORMAT}
+                showDateInput={true}
+                focusablePanel={false} />
         )
     }
 
@@ -95,15 +115,32 @@ class ModalCreateTodo extends React.Component {
                 <Modal.Header><Icon name='check circle outline' /> Create a Task</Modal.Header>
                 <Modal.Content>
                     <Form>
-                        <Form.Field required>
-                            <label>Title</label>
-                            <Input
-                                type='text'
-                                name='title'
-                                value={this.state.title}
-                                placeholder='Got a task?'
-                                onChange={e => this.handleInputChange(e)} />
-                        </Form.Field>
+                        <Form.Group widths='equal' className='group'>
+                            <Form.Field required>
+                                <label>Title</label>
+                                <Input
+                                    type='text'
+                                    name='title'
+                                    value={this.state.title}
+                                    placeholder='Got a task?'
+                                    onChange={e => this.handleInputChange(e)} />
+                            </Form.Field>
+                            <Form.Field>
+                                <label>Due Date</label>
+                                <DatePicker
+                                    animation='slide-up'
+                                    onChange={date => this.handleDatePickerChange(date)}
+                                    calendar={this.renderCalendar()}>
+                                    {
+                                        ({ value }) => (
+                                            <Input
+                                                value={(value && value.format(ModalCreateTodo.FORMAT)) || ''}
+                                                placeholder='1994-08-01' />
+                                        )
+                                    }
+                                </DatePicker>
+                            </Form.Field>
+                        </Form.Group>
                         <Form.Field>
                             <ReactMde
                                 value={this.state.mde}
@@ -115,16 +152,16 @@ class ModalCreateTodo extends React.Component {
                         <Form.Field>
                             <label>Labels</label>
                             {this.props.labels.length > 0 &&
-                            <Dropdown
-                                fluid
-                                clearable
-                                search
-                                selection
-                                multiple
-                                placeholder='Add some labels...'
-                                options={this.props.labels}
-                                onChange={(_, options) => this.handleLabelsChange(options.value)}
-                                renderLabel={(label, i, defaultProps) => this.renderLabel(label, defaultProps)}/>}
+                                <Dropdown
+                                    fluid
+                                    clearable
+                                    search
+                                    selection
+                                    multiple
+                                    placeholder='Add some labels...'
+                                    options={this.props.labels}
+                                    onChange={(_, options) => this.handleLabelsChange(options.value)}
+                                    renderLabel={(label, i, defaultProps) => this.renderLabel(label, defaultProps)}/>}
                         </Form.Field>
                     </Form>
                 </Modal.Content>
@@ -143,7 +180,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     getLabels: () => dispatch(getLabelsAsync()),
-    createTodo: (title, description, labels) => dispatch(postCreateTodoAsync(title, description, labels))
+    createTodo: (title, description, labels, due_date) => dispatch(postCreateTodoAsync(title, description, labels, due_date))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalCreateTodo)
