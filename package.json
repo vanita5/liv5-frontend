@@ -25,7 +25,7 @@
     "reselect": "^4.0.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.87.2",
-    "showdown": "^1.9.0",
+    "showdown": "^1.9.1",
     "showdown-xss-filter": "^0.2.0"
   },
   "scripts": {
